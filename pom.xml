@@ -71,6 +71,8 @@
     </dependencies>
   </dependencyManagement>
 
+  <!-- To build the mvn snapshot repo, run
+       mvn -DaltDeploymentRepository=snapshot-repo::default::file:mvn-repo/snapshots clean deploy -->
   <distributionManagement>
     <snapshotRepository>
       <id>snapshot-repo</id>
