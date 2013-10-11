@@ -25,9 +25,7 @@ import java.util.Map;
 
 import com.google.common.collect.UnmodifiableIterator;
 
-import qdg.api.EntityMap;
-
-public class SparseArrayList<E> implements EntityMap<Integer, E>, Serializable {
+public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 	
 	private static final long serialVersionUID = -4891243247383504348L;
 

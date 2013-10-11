@@ -303,7 +303,8 @@ public class ListMixedGraph extends AbstractMixedGraph
 	public Edge addArc(Node source, Node target) {
 		N s = (N) source;
 		N t = (N) target;
-		int id = arcLace.addArc(s.getId(), t.getId());
+		int id = arcData.add(new ArcData<Integer>(s.getId(), t.getId()));
+		arcLace.laceArc(id, s.getId(), t.getId());
 		Edge arc = new E(id, true);
 		for (EdgeMutationHandler handler : edgeMutationHandlers.keySet()) {
 			handler.onAdd(arc);
@@ -319,8 +320,10 @@ public class ListMixedGraph extends AbstractMixedGraph
 		}
 		if (e.directed) {
 			arcLace.remove(e.getId());
+			arcData.remove(e.getId());
 		} else {
 			uEdgeLace.remove(e.getId());
+			uEdgeData.remove(e.getId());
 		}
 	}
 	
@@ -328,7 +331,8 @@ public class ListMixedGraph extends AbstractMixedGraph
 	public Edge addUEdge(Node source, Node target) {
 		N s = (N) source;
 		N t = (N) target;
-		int id = uEdgeLace.addArc(s.getId(), t.getId());
+		int id = uEdgeData.add(new ArcData<Integer>(s.getId(), t.getId()));
+		uEdgeLace.laceArc(id, s.getId(), t.getId());
 		Edge uEdge = new E(id, false);
 		for (EdgeMutationHandler handler : edgeMutationHandlers.keySet()) {
 			handler.onAdd(uEdge);

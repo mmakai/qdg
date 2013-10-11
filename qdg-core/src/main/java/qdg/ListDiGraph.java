@@ -74,7 +74,7 @@ public class ListDiGraph extends AbstractDiGraph
 
 		@Override
 		public String toString() {
-			return "A [id=" + id + "]";
+			return "Arc [id=" + id + "]";
 		}
 	}
 	
@@ -185,7 +185,8 @@ public class ListDiGraph extends AbstractDiGraph
 	public Edge addArc(Node source, Node target) {
 		N s = (N) source;
 		N t = (N) target;
-		int id = arcLace.addArc(s.getId(), t.getId());
+		int id = arcData.add(new ArcData<Integer>(s.getId(), t.getId()));
+		arcLace.laceArc(id, s.getId(), t.getId());
 		Edge arc = new A(id);
 		for (EdgeMutationHandler handler : edgeMutationHandlers.keySet()) {
 			handler.onAdd(arc);
@@ -200,6 +201,7 @@ public class ListDiGraph extends AbstractDiGraph
 			handler.onRemove(arc);
 		}
 		arcLace.remove(a.getId());
+		arcData.remove(a.getId());
 	}
 	
 	@Override

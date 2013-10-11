@@ -59,16 +59,6 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 	public E get(int i) {
 		return container.get(i).f;
 	}
-
-	@Override
-	public int add(E e) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void remove(int i) {
-		throw new UnsupportedOperationException();
-	}
 	
 	private class KeyIterator extends UnmodifiableIterator<Integer> {
 

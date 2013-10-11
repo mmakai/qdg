@@ -21,7 +21,7 @@ import java.util.Iterator;
 
 import com.google.common.collect.UnmodifiableIterator;
 
-import qdg.SparseArrayList;
+import qdg.SparseArrayMap;
 import qdg.api.EntityMap;
 
 public class ArcLace<N> {
@@ -63,7 +63,7 @@ public class ArcLace<N> {
 		
 		protected int nextIn = -1;
 		
-		private ArcData(M source, M target) {
+		public ArcData(M source, M target) {
 			this.source = source;
 			this.target = target;
 		}
@@ -78,10 +78,10 @@ public class ArcLace<N> {
 	
 	protected EntityMap<N, NodeData> nodeContainer;
 
-	protected SparseArrayList<ArcData<N>> arcs;
+	protected SparseArrayMap<ArcData<N>> arcs;
 	
 	public ArcLace(EntityMap<N, NodeData> nodeContainer,
-			SparseArrayList<ArcData<N>> arcs) {
+			SparseArrayMap<ArcData<N>> arcs) {
 		this.nodeContainer = nodeContainer;
 		this.arcs = arcs;
 	}
@@ -171,28 +171,26 @@ public class ArcLace<N> {
 				getOutArcIterator(node), getInArcIterator(node));
 	}
 	
-	public Integer addArc(N source, N target) {
+	public void laceArc(int arcId, N source, N target) {
 		N s = (N) source;
 		N t = (N) target;
-		ArcData<N> e = new ArcData<N>(s, t);
-		int id = arcs.add(e);
+		ArcData<N> e = arcs.get(arcId);
 		if (nodeContainer.get(s).lastOut >= 0) {
-			arcs.get(nodeContainer.get(s).lastOut).nextOut = id;
+			arcs.get(nodeContainer.get(s).lastOut).nextOut = arcId;
 			e.prevOut = nodeContainer.get(s).lastOut;
-			nodeContainer.get(s).lastOut = id;
+			nodeContainer.get(s).lastOut = arcId;
 		} else {
-			nodeContainer.get(s).firstOut = id;
-			nodeContainer.get(s).lastOut = id;
+			nodeContainer.get(s).firstOut = arcId;
+			nodeContainer.get(s).lastOut = arcId;
 		}
 		if (nodeContainer.get(t).lastIn >= 0) {
-			arcs.get(nodeContainer.get(t).lastIn).nextIn = id;
+			arcs.get(nodeContainer.get(t).lastIn).nextIn = arcId;
 			e.prevIn = nodeContainer.get(t).lastIn;
-			nodeContainer.get(t).lastIn = id;
+			nodeContainer.get(t).lastIn = arcId;
 		} else {
-			nodeContainer.get(t).firstIn = id;
-			nodeContainer.get(t).lastIn = id;
+			nodeContainer.get(t).firstIn = arcId;
+			nodeContainer.get(t).lastIn = arcId;
 		}
-		return id;
 	}
 	
 	public void remove(Integer arcId) {
@@ -217,6 +215,5 @@ public class ArcLace<N> {
 		} else {
 			nodeContainer.get(e.target).lastIn = e.prevIn;
 		}
-		arcs.remove(arcId);
 	}
 }

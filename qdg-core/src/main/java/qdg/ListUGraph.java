@@ -174,7 +174,8 @@ public class ListUGraph extends AbstractUGraph
 	public Edge addUEdge(Node source, Node target) {
 		N s = (N) source;
 		N t = (N) target;
-		int id = uEdgeLace.addArc(s.getId(), t.getId());
+		int id = uEdgeData.add(new ArcData<Integer>(s.getId(), t.getId()));
+		uEdgeLace.laceArc(id, s.getId(), t.getId());
 		Edge uEdge = new U(id);
 		for (EdgeMutationHandler handler : edgeMutationHandlers.keySet()) {
 			handler.onAdd(uEdge);
@@ -189,6 +190,7 @@ public class ListUGraph extends AbstractUGraph
 			handler.onRemove(uEdge);
 		}
 		uEdgeLace.remove(u.getId());
+		uEdgeData.remove(u.getId());
 	}
 	
 	@Override

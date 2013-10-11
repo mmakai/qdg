@@ -87,7 +87,7 @@ public class StaticMixedGraph extends AbstractMixedGraph
 
 		@Override
 		public String toString() {
-			return "A [directed=" + directed + ", id=" + id + "]";
+			return "Edge [directed=" + directed + ", id=" + id + "]";
 		}
 	}
 	

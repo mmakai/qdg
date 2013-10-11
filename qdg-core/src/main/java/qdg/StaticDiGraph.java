@@ -74,7 +74,7 @@ public class StaticDiGraph extends AbstractDiGraph
 
 		@Override
 		public String toString() {
-			return "A [id=" + id + "]";
+			return "Arc [id=" + id + "]";
 		}
 	}
 	

@@ -84,7 +84,7 @@ public class UGraphAsDiGraph extends AbstractDiGraph {
 
 		@Override
 		public String toString() {
-			return "A [original=" + original + ", backward=" + backward + "]";
+			return "Arc [original=" + original + ", backward=" + backward + "]";
 		}
 	}
 
