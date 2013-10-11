@@ -38,9 +38,15 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 /**
- * Note that serialization skips the registry of maps registered into the
- * graph. The graph provided maps can be recreated by serializing, deserializing
- * and registering them again to the graph.
+ * Mixed graph with integer ids of the nodes and edges. Ids have to be provided
+ * by the caller when the nodes and edges are added, with the attention that
+ * the node ids as well the edge ids should be unique.
+ * 
+ * Nodes and edges are stored in arrays with their ids corresponding to
+ * indices, hence memory consumption is proportional to the maximum id.
+ * 
+ * One particular use case is to copy a graph or a subgraph of a graph
+ * indexed by integers, with keeping the integer ids of the underlying graph.
  * 
  * @author Marton Makai
  */
