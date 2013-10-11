@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
+<metadata modelVersion="1.1.0">
   <groupId>qdg</groupId>
   <artifactId>qdg-jung</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <buildNumber>2</buildNumber>
+      <timestamp>20131011.152414</timestamp>
+      <buildNumber>3</buildNumber>
     </snapshot>
-    <lastUpdated>20130912155812</lastUpdated>
+    <lastUpdated>20131011152414</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.0.1-20131011.152414-3</value>
+        <updated>20131011152414</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.1-20131011.152414-3</value>
+        <updated>20131011152414</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>sources</classifier>
+        <extension>jar</extension>
+        <value>0.0.1-20131011.152414-3</value>
+        <updated>20131011152414</updated>
+      </snapshotVersion>
+    </snapshotVersions>
   </versioning>
 </metadata>

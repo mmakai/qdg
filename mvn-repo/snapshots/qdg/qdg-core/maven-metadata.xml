@@ -2,11 +2,10 @@
 <metadata>
   <groupId>qdg</groupId>
   <artifactId>qdg-core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>0.0.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20130912155811</lastUpdated>
+    <lastUpdated>20131011152413</lastUpdated>
   </versioning>
 </metadata>
