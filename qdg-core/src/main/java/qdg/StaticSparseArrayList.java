@@ -160,7 +160,22 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 			}
 		};
 	}
-
+	
+	public void remove(int id) {
+		LinkedElement<E> removedElement = container.get(id);
+		if (removedElement.previous >= 0) {
+			container.get(removedElement.previous).next = removedElement.next;
+		} else {
+			firstUsed = removedElement.next;
+		}
+		if (removedElement.next >= 0) {
+			container.get(removedElement.next).previous = removedElement.previous;
+		} else {
+			lastUsed = removedElement.previous;
+		}
+		removedElement.f = null;
+	}
+	
 	@Override
 	public E put(Integer k, E v) {
 		while (k >= container.size()) {

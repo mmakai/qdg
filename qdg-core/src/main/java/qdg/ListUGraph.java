@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
-import qdg.api.UGraph;
+import qdg.api.UIdGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -48,7 +48,7 @@ import com.google.common.collect.Iterators;
  * @author Marton Makai
  */
 public class ListUGraph extends AbstractUGraph
-		implements UGraph, Serializable {
+		implements UIdGraph, Serializable {
 	
 	private static final long serialVersionUID = 8729615163564836464L;
 
@@ -247,5 +247,15 @@ public class ListUGraph extends AbstractUGraph
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
+	}
+
+	@Override
+	public Node nodeFromId(int id) {
+		return new N(id);
+	}
+
+	@Override
+	public Edge uEdgeFromId(int id) {
+		return new U(id);
 	}
 }

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import qdg.api.DiGraph;
+import qdg.api.DiIdGraph;
 import qdg.api.EntityMap;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
@@ -36,7 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 public class StaticOutArcDiGraph extends AbstractDiGraph
-		implements DiGraph {
+		implements DiIdGraph {
 	
 	public static class N extends AbstractIdEntity
 			implements Node {
@@ -221,5 +221,15 @@ public class StaticOutArcDiGraph extends AbstractDiGraph
 	@Override
 	public <V> EntityMap<Edge, V> createArcMap() {
 		return new ArcMap<V>();
+	}
+
+	@Override
+	public Node nodeFromId(int id) {
+		return new N(id);
+	}
+
+	@Override
+	public Edge arcFromId(int id) {
+		return new A(id);
 	}
 }

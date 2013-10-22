@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
-import qdg.api.MixedGraph;
+import qdg.api.MixedIdGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -48,7 +48,7 @@ import com.google.common.collect.Iterators;
  * @author Marton Makai
  */
 public class ListMixedGraph extends AbstractMixedGraph
-		implements MixedGraph, Serializable {
+		implements MixedIdGraph, Serializable {
 	
 	private static final long serialVersionUID = 4444550416599231556L;
 
@@ -491,5 +491,20 @@ public class ListMixedGraph extends AbstractMixedGraph
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
+	}
+
+	@Override
+	public Node nodeFromId(int id) {
+		return new N(id);
+	}
+
+	@Override
+	public Edge arcFromId(int id) {
+		return new E(id, true);
+	}
+
+	@Override
+	public Edge uEdgeFromId(int id) {
+		return new E(id, false);
 	}
 }

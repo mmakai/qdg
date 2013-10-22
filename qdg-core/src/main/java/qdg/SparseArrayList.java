@@ -53,10 +53,6 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 	
 	private int firstFree = -1;
 	
-	public E get(int i) {
-		return container.get(i).f;
-	}
-	
 	public int add(E e) {
 		// New element is added as last in order.
 		int newIndex;

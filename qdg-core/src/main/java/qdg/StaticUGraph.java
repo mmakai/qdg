@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
-import qdg.api.UGraph;
+import qdg.api.UIdGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -37,7 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 public class StaticUGraph extends AbstractUGraph
-		implements UGraph {
+		implements UIdGraph {
 	
 	public static class N extends AbstractIdEntity
 			implements Node {
@@ -218,5 +218,15 @@ public class StaticUGraph extends AbstractUGraph
 	@Override
 	public <V> EntityMap<Edge, V> createUEdgeMap() {
 		return new UEdgeMap<V>();
+	}
+
+	@Override
+	public Node nodeFromId(int id) {
+		return new N(id);
+	}
+
+	@Override
+	public Edge uEdgeFromId(int id) {
+		return new U(id);
 	}
 }

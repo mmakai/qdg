@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import qdg.api.EntityMap;
-import qdg.api.MixedGraph;
+import qdg.api.MixedIdGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -53,7 +53,7 @@ import com.google.common.collect.Iterators;
  * @author Marton Makai
  */
 public class StaticMixedIdGraph extends AbstractMixedGraph
-		implements MixedGraph, Serializable {
+		implements MixedIdGraph, Serializable {
 	
 	private static final long serialVersionUID = 4444550416599231556L;
 
@@ -263,6 +263,27 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 		return new N(id);
 	}
 	
+	public void remove(Node node) {
+		N n = (N) node;
+		while (arcLace.getOutArcIterator(n.getId()).hasNext()) {
+			E u = new E(arcLace.getOutArcIterator(n.getId()).next(), true);
+			remove(u);
+		}
+		while (arcLace.getInArcIterator(n.getId()).hasNext()) {
+			E u = new E(arcLace.getInArcIterator(n.getId()).next(), true);
+			remove(u);
+		}
+		while (uEdgeLace.getOutArcIterator(n.getId()).hasNext()) {
+			E u = new E(uEdgeLace.getOutArcIterator(n.getId()).next(), false);
+			remove(u);
+		}
+		while (uEdgeLace.getInArcIterator(n.getId()).hasNext()) {
+			E u = new E(uEdgeLace.getInArcIterator(n.getId()).next(), false);
+			remove(u);
+		}
+		nodes.remove(n.getId());
+	}
+
 	public Edge addArc(int id, Node source, Node target) {
 		N s = (N) source;
 		N t = (N) target;
@@ -277,6 +298,17 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 		uEdgeData.put(id, new ArcData<Integer>(s.getId(), t.getId()));
 		uEdgeLace.laceArc(id, s.getId(), t.getId());
 		return new E(id, false);
+	}
+	
+	public void remove(Edge edge) {
+		E e = (E) edge;
+		if (e.directed) {
+			arcLace.remove(e.getId());
+			arcData.remove(e.getId());
+		} else {
+			uEdgeLace.remove(e.getId());
+			uEdgeData.remove(e.getId());
+		}
 	}
 	
 	protected class NodeMap<V> extends AbstractIdMap<Node, V> {
@@ -406,17 +438,7 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 	}
 
 	@Override
-	public void remove(Node n) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Edge addUEdge(Node source, Node target) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void remove(Edge uEdge) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -433,5 +455,20 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 	@Override
 	public Edge addArc(Node source, Node target) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Node nodeFromId(int id) {
+		return new N(id);
+	}
+
+	@Override
+	public Edge arcFromId(int id) {
+		return new E(id, true);
+	}
+
+	@Override
+	public Edge uEdgeFromId(int id) {
+		return new E(id, false);
 	}
 }
