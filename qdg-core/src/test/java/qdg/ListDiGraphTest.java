@@ -31,10 +31,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import qdg.api.DiGraph;
 import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
-import qdg.api.MutableDiGraph;
 import qdg.api.bits.HasId;
 import qdg.api.bits.NodeMutationHandler;
 
@@ -229,7 +229,7 @@ public class ListDiGraphTest {
 	 * Test that the id of a removed node is reused, and the map entry is
 	 * cleaned as well.
 	 */
-	public static void nodeMapMutationHandlerDiGraphTest(MutableDiGraph g) {
+	public static void nodeMapMutationHandlerDiGraphTest(DiGraph g) {
 		Node n1 = g.addNode();
 		assertEquals(0, ((HasId) n1).getId());
 		EntityMap<Node, Integer> map = g.createNodeMap();
@@ -254,7 +254,7 @@ public class ListDiGraphTest {
 	 * Test that the id of a removed arc is reused, and the map entry is
 	 * cleaned as well.
 	 */
-	public static void arcMapMutationHandlerDiGraphTest(MutableDiGraph g) {
+	public static void arcMapMutationHandlerDiGraphTest(DiGraph g) {
 		Node n1 = g.addNode();
 		Node n2 = g.addNode();
 		Edge e1 = g.addArc(n1, n2);

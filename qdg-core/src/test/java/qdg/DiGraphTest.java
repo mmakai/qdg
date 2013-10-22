@@ -22,14 +22,14 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import qdg.api.DiGraph;
 import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
-import qdg.api.MutableDiGraph;
 
 public class DiGraphTest {
 
-	public static void sourceAndTargetTest(MutableDiGraph g) {
+	public static void sourceAndTargetTest(DiGraph g) {
 		Node n0 = g.addNode();
 		Node n1 = g.addNode();
 		Edge a0 = g.addArc(n0, n1);
@@ -45,7 +45,7 @@ public class DiGraphTest {
 		assertEquals(n2, g.getTarget(a2));
 	}
 	
-	public static void nodeIteratorTest(MutableDiGraph g) {
+	public static void nodeIteratorTest(DiGraph g) {
 		assertFalse(g.getNodeIterator().hasNext());
 		
 		Node n0 = g.addNode();
@@ -60,7 +60,7 @@ public class DiGraphTest {
 		assertEquals(n1, nodes.get(1));
 	}
 	
-	public static void arcIteratorTest(MutableDiGraph g) {
+	public static void arcIteratorTest(DiGraph g) {
 		assertFalse(g.getArcIterator().hasNext());
 		
 		Node n0 = g.addNode();
@@ -78,7 +78,7 @@ public class DiGraphTest {
 		assertEquals(a1, arcs.get(1));
 	}
 	
-	public static void outArcIteratorTest(MutableDiGraph g) {
+	public static void outArcIteratorTest(DiGraph g) {
 		Node n0 = g.addNode();
 		assertFalse(g.getOutArcIterator(n0).hasNext());
 		
@@ -105,7 +105,7 @@ public class DiGraphTest {
 		assertEquals(0, n2Out.size());
 	}
 	
-	public static void inArcIteratorTest(MutableDiGraph g) {
+	public static void inArcIteratorTest(DiGraph g) {
 		Node n0 = g.addNode();
 		assertFalse(g.getInArcIterator(n0).hasNext());
 		
@@ -131,7 +131,7 @@ public class DiGraphTest {
 		assertEquals(a2, n2In.get(1));
 	}
 	
-	public static void incidentArcIteratorTest(MutableDiGraph g) {
+	public static void incidentArcIteratorTest(DiGraph g) {
 		Node n0 = g.addNode();
 		assertFalse(g.getIncidentArcIterator(n0).hasNext());
 		
@@ -161,7 +161,7 @@ public class DiGraphTest {
 		assertEquals(a2, n2Incident.get(1));
 	}
 	
-	public static void nodeMapTest(MutableDiGraph g) {
+	public static void nodeMapTest(DiGraph g) {
 		EntityMap<Node, Integer> map = g.createNodeMap();
 		
 		Node n0 = g.addNode();
@@ -176,7 +176,7 @@ public class DiGraphTest {
 		assertEquals(5, map.get(n1).intValue());
 	}
 	
-	public static void arcMapTest(MutableDiGraph g) {
+	public static void arcMapTest(DiGraph g) {
 		EntityMap<Edge, Integer> map = g.createArcMap();
 		
 		Node n0 = g.addNode();
@@ -194,7 +194,7 @@ public class DiGraphTest {
 		assertEquals(5, map.get(a1).intValue());
 	}
 	
-	public static void edgeMapTest(MutableDiGraph g) {
+	public static void edgeMapTest(DiGraph g) {
 		EntityMap<Edge, Integer> map = g.createEdgeMap();
 		
 		Node n0 = g.addNode();

@@ -24,13 +24,12 @@ import com.google.common.collect.Iterators;
 import qdg.EntityMaps;
 import qdg.api.EntityMap;
 import qdg.api.MixedGraph;
-import qdg.api.MutableMixedGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractMixedGraph;
 
 public class SpanningSubMixedGraph extends AbstractMixedGraph
-		implements MutableMixedGraph {
+		implements MixedGraph {
 	
 	protected MixedGraph g;
 	
@@ -134,47 +133,43 @@ public class SpanningSubMixedGraph extends AbstractMixedGraph
 	}
 	
 	/* (non-Javadoc)
-	 * @see qdg.api.MutableDiGraph#addNode()
+	 * @see qdg.api.DiGraph#addNode()
 	 * 
-	 * Optional operation. If the original graph is a MutableMixedGraph,
-	 * the its addNode is called. Otherwise an exception is thrown.
+	 * Optional operation. Same method of the underlying graph is called.
 	 */
 	@Override
 	public Node addNode() {
-		return ((MutableMixedGraph) g).addNode();
+		return g.addNode();
 	}
 
 	/* (non-Javadoc)
-	 * @see qdg.api.MutableDiGraph#remove(qdg.api.Graph.Node)
+	 * @see qdg.api.DiGraph#remove(qdg.api.Graph.Node)
 	 * 
-	 * Optional operation. If the original graph is a MutableMixedGraph,
-	 * the its remove is called. Otherwise an exception is thrown.
+	 * Optional operation. Same method of the underlying graph is called.
 	 */
 	@Override
 	public void remove(Node n) {
-		((MutableMixedGraph) g).remove(n);
+		g.remove(n);
 	}
 
 	/* (non-Javadoc)
-	 * @see qdg.api.MutableDiGraph#addArc(qdg.api.Graph.Node, qdg.api.Graph.Node)
+	 * @see qdg.api.DiGraph#addArc(qdg.api.Graph.Node, qdg.api.Graph.Node)
 	 * 
-	 * Optional operation. If the original graph is a MutableMixedGraph,
-	 * the its addArc is called. Otherwise an exception is thrown.
+	 * Optional operation. Same method of the underlying graph is called.
 	 */
 	@Override
 	public Edge addArc(Node source, Node target) {
-		return ((MutableMixedGraph) g).addArc(source, target);
+		return g.addArc(source, target);
 	}
 
 	/* (non-Javadoc)
-	 * @see qdg.api.MutableDiGraph#remove(qdg.api.Graph.Edge)
+	 * @see qdg.api.DiGraph#remove(qdg.api.Graph.Edge)
 	 * 
-	 * Optional operation. If the original graph is a MutableMixedGraph,
-	 * the its remove is called. Otherwise an exception is thrown.
+	 * Optional operation. Same method of the underlying graph is called.
 	 */
 	@Override
 	public void remove(Edge arc) {
-		((MutableMixedGraph) g).remove(arc);
+		g.remove(arc);
 	}
 
 	@Override
@@ -188,13 +183,12 @@ public class SpanningSubMixedGraph extends AbstractMixedGraph
 	}
 
 	/* (non-Javadoc)
-	 * @see qdg.api.MutableUGraph#addUEdge(qdg.api.Graph.Node, qdg.api.Graph.Node)
+	 * @see qdg.api.UGraph#addUEdge(qdg.api.Graph.Node, qdg.api.Graph.Node)
 	 * 
-	 * Optional operation. If the original graph is a MutableMixedGraph,
-	 * the its addUEdge is called. Otherwise an exception is thrown.
+	 * Optional operation. Same method of the underlying graph is called.
 	 */
 	@Override
 	public Edge addUEdge(Node source, Node target) {
-		return ((MutableMixedGraph) g).addUEdge(source, target);
+		return g.addUEdge(source, target);
 	}
 }

@@ -36,7 +36,7 @@ import com.google.common.collect.Iterators;
 import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
-import qdg.api.MutableUGraph;
+import qdg.api.UGraph;
 import qdg.api.bits.HasId;
 import qdg.api.bits.NodeMutationHandler;
 
@@ -203,7 +203,7 @@ public class ListUGraphTest {
 	 * Test that the id of a removed node is reused, and the map entry is
 	 * cleaned as well.
 	 */
-	public static void nodeMapMutationHandlerUGraphTest(MutableUGraph g) {
+	public static void nodeMapMutationHandlerUGraphTest(UGraph g) {
 		Node n1 = g.addNode();
 		assertEquals(0, ((HasId) n1).getId());
 		EntityMap<Node, Integer> map = g.createNodeMap();
@@ -228,7 +228,7 @@ public class ListUGraphTest {
 	 * Test that the id of a removed undirected edge is reused, and the map entry is
 	 * cleaned as well.
 	 */
-	public static void uEdgeMapMutationHandlerUGraphTest(MutableUGraph g) {
+	public static void uEdgeMapMutationHandlerUGraphTest(UGraph g) {
 		Node n1 = g.addNode();
 		Node n2 = g.addNode();
 		Edge e1 = g.addUEdge(n1, n2);

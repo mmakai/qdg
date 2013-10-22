@@ -24,6 +24,8 @@ import java.util.Iterator;
 
 import qdg.api.EntityMap;
 import qdg.api.MixedGraph;
+import qdg.api.bits.EdgeMutationHandler;
+import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
 import qdg.bits.AbstractIdMap;
 import qdg.bits.AbstractMixedGraph;
@@ -396,5 +398,40 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
+	}
+
+	@Override
+	public Node addNode() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Node n) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Edge addUEdge(Node source, Node target) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Edge uEdge) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addNodeMutationHandler(NodeMutationHandler handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addEdgeMutationHandler(EdgeMutationHandler handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Edge addArc(Node source, Node target) {
+		throw new UnsupportedOperationException();
 	}
 }

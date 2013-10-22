@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
-import qdg.api.MutableMixedGraph;
+import qdg.api.MixedGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -37,7 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 public class StaticMixedGraph extends AbstractMixedGraph
-		implements MutableMixedGraph {
+		implements MixedGraph {
 	
 	public static class N extends AbstractIdEntity
 			implements Node {

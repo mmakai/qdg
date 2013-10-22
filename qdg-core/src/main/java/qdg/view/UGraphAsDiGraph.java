@@ -24,6 +24,8 @@ import com.google.common.collect.UnmodifiableIterator;
 
 import qdg.api.EntityMap;
 import qdg.api.UGraph;
+import qdg.api.bits.EdgeMutationHandler;
+import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractDiGraph;
 import qdg.bits.ConcatIterator;
 
@@ -244,5 +246,35 @@ public class UGraphAsDiGraph extends AbstractDiGraph {
 	@Override
 	public <V> EntityMap<Edge, V> createArcMap() {
 		return new ArcMap<V>();
+	}
+
+	@Override
+	public Node addNode() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Node n) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Edge addArc(Node source, Node target) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Edge arc) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addNodeMutationHandler(NodeMutationHandler handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addEdgeMutationHandler(EdgeMutationHandler handler) {
+		throw new UnsupportedOperationException();
 	}
 }

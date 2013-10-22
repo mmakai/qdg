@@ -23,8 +23,8 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.WeakHashMap;
 
+import qdg.api.DiGraph;
 import qdg.api.EntityMap;
-import qdg.api.MutableDiGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractDiGraph;
@@ -48,7 +48,7 @@ import com.google.common.collect.Iterators;
  * @author Marton Makai
  */
 public class ListDiGraph extends AbstractDiGraph
-		implements MutableDiGraph, Serializable {
+		implements DiGraph, Serializable {
 	
 	private static final long serialVersionUID = -815385180481551292L;
 

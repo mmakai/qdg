@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import qdg.api.DiGraph;
 import qdg.api.EntityMap;
-import qdg.api.MutableDiGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractDiGraph;
@@ -36,7 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
 public class StaticOutArcDiGraph extends AbstractDiGraph
-		implements MutableDiGraph {
+		implements DiGraph {
 	
 	public static class N extends AbstractIdEntity
 			implements Node {

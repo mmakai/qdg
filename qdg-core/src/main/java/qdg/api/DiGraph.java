@@ -18,6 +18,8 @@ package qdg.api;
 
 import qdg.api.bits.ArcIterable;
 import qdg.api.bits.ArcMappable;
+import qdg.api.bits.HasEdgeMutationHandlers;
+import qdg.api.bits.HasNodeMutationHandlers;
 import qdg.api.bits.InArcIterable;
 import qdg.api.bits.IncidentArcIterable;
 import qdg.api.bits.OutArcIterable;
@@ -27,5 +29,26 @@ public interface DiGraph extends Graph,
 		OutArcIterable<Graph.Node, Graph.Edge>,
 		InArcIterable<Graph.Node, Graph.Edge>,
 		IncidentArcIterable<Graph.Node, Graph.Edge>,
-		ArcMappable<Graph.Edge>{
+		ArcMappable<Graph.Edge>,
+		HasNodeMutationHandlers, HasEdgeMutationHandlers {
+	
+	/**
+	 * Optional operation.
+	 */
+	Node addNode();
+	
+	/**
+	 * Optional operation.
+	 */
+	void remove(Node n);
+	
+	/**
+	 * Optional operation.
+	 */
+	Edge addArc(Node source, Node target);
+	
+	/**
+	 * Optional operation.
+	 */
+	void remove(Edge arc);
 }

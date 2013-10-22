@@ -22,7 +22,6 @@ import java.util.Collection;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
 import qdg.api.MixedGraph;
-import qdg.api.MutableMixedGraph;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -145,7 +144,7 @@ public class MixedGraphAsJungGraph implements
 	 */
 	@Override
 	public boolean removeVertex(Node vertex) {
-		((MutableMixedGraph) g).remove(vertex);
+		g.remove(vertex);
 		return true;
 	}
 
@@ -157,7 +156,7 @@ public class MixedGraphAsJungGraph implements
 	 */
 	@Override
 	public boolean removeEdge(Edge edge) {
-		((MutableMixedGraph) g).remove(edge);
+		g.remove(edge);
 		return true;
 	}
 

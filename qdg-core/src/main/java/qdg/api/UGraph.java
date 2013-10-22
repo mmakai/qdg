@@ -16,6 +16,8 @@
 
 package qdg.api;
 
+import qdg.api.bits.HasEdgeMutationHandlers;
+import qdg.api.bits.HasNodeMutationHandlers;
 import qdg.api.bits.IncidentUEdgeIterable;
 import qdg.api.bits.UEdgeIterable;
 import qdg.api.bits.UEdgeMappable;
@@ -23,5 +25,14 @@ import qdg.api.bits.UEdgeMappable;
 public interface UGraph extends Graph,
 		UEdgeIterable<Graph.Edge>,
 		IncidentUEdgeIterable<Graph.Node, Graph.Edge>,
-		UEdgeMappable<Graph.Edge> {
+		UEdgeMappable<Graph.Edge>,
+		HasNodeMutationHandlers, HasEdgeMutationHandlers{
+	
+	Node addNode();
+	
+	void remove(Node n);
+	
+	Edge addUEdge(Node source, Node target);
+	
+	void remove(Edge uEdge);
 }

@@ -20,6 +20,8 @@ import java.util.Iterator;
 
 import qdg.api.EntityMap;
 import qdg.api.MixedGraph;
+import qdg.api.bits.EdgeMutationHandler;
+import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractUGraph;
 
 /**
@@ -71,5 +73,35 @@ public class MixedGraphAsUGraph extends AbstractUGraph {
 	@Override
 	public <V> EntityMap<Edge, V> createUEdgeMap() {
 		return g.createEdgeMap();
+	}
+
+	@Override
+	public Node addNode() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Node n) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Edge addUEdge(Node source, Node target) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void remove(Edge uEdge) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addNodeMutationHandler(NodeMutationHandler handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addEdgeMutationHandler(EdgeMutationHandler handler) {
+		throw new UnsupportedOperationException();
 	}
 }

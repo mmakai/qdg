@@ -20,13 +20,13 @@ import org.junit.Test;
 
 import qdg.DiGraphTest;
 import qdg.UGraphTest;
-import qdg.api.MutableMixedGraph;
+import qdg.api.MixedGraph;
 
 public abstract class AbstractIdenticalSubMixedGraphTest {
 	
-	protected MutableMixedGraph original;
+	protected MixedGraph original;
 	
-	protected MutableMixedGraph identicalSubGraph;
+	protected MixedGraph identicalSubGraph;
 	
 	// Everything from DiGraphTest.
 	

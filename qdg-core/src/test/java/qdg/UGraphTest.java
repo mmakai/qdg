@@ -25,11 +25,11 @@ import com.google.common.collect.Lists;
 import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
-import qdg.api.MutableUGraph;
+import qdg.api.UGraph;
 
 public class UGraphTest {
 
-	public static void sourceAndTargetTest(MutableUGraph g) {
+	public static void sourceAndTargetTest(UGraph g) {
 		Node n0 = g.addNode();
 		Node n1 = g.addNode();
 		Edge u0 = g.addUEdge(n0, n1);
@@ -45,7 +45,7 @@ public class UGraphTest {
 		assertEquals(n2, g.getTarget(u2));
 	}
 	
-	public static void nodeIteratorTest(MutableUGraph g) {
+	public static void nodeIteratorTest(UGraph g) {
 		assertFalse(g.getNodeIterator().hasNext());
 		
 		Node n0 = g.addNode();
@@ -60,7 +60,7 @@ public class UGraphTest {
 		assertEquals(n1, nodes.get(1));
 	}
 	
-	public static void uEdgeIteratorTest(MutableUGraph g) {
+	public static void uEdgeIteratorTest(UGraph g) {
 		assertFalse(g.getUEdgeIterator().hasNext());
 		
 		Node n0 = g.addNode();
@@ -78,7 +78,7 @@ public class UGraphTest {
 		assertEquals(u1, uEdges.get(1));
 	}
 	
-	public static void incidentUEdgeIteratorTest(MutableUGraph g) {
+	public static void incidentUEdgeIteratorTest(UGraph g) {
 		Node n0 = g.addNode();
 		assertFalse(g.getIncidentUEdgeIterator(n0).hasNext());
 		
@@ -108,7 +108,7 @@ public class UGraphTest {
 		assertEquals(u2, n2Incident.get(1));
 	}
 	
-	public static void nodeMapTest(MutableUGraph g) {
+	public static void nodeMapTest(UGraph g) {
 		EntityMap<Node, Integer> map = g.createNodeMap();
 		
 		Node n0 = g.addNode();
@@ -123,7 +123,7 @@ public class UGraphTest {
 		assertEquals(5, map.get(n1).intValue());
 	}
 	
-	public static void uEdgeMapTest(MutableUGraph g) {
+	public static void uEdgeMapTest(UGraph g) {
 		EntityMap<Edge, Integer> map = g.createUEdgeMap();
 		
 		Node n0 = g.addNode();
@@ -141,7 +141,7 @@ public class UGraphTest {
 		assertEquals(5, map.get(u1).intValue());
 	}
 	
-	public static void edgeMapTest(MutableUGraph g) {
+	public static void edgeMapTest(UGraph g) {
 		EntityMap<Edge, Integer> map = g.createEdgeMap();
 		
 		Node n0 = g.addNode();

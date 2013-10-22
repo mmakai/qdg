@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
-import qdg.api.MutableMixedGraph;
+import qdg.api.MixedGraph;
 import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractIdEntity;
@@ -48,7 +48,7 @@ import com.google.common.collect.Iterators;
  * @author Marton Makai
  */
 public class ListMixedGraph extends AbstractMixedGraph
-		implements MutableMixedGraph, Serializable {
+		implements MixedGraph, Serializable {
 	
 	private static final long serialVersionUID = 4444550416599231556L;
 
