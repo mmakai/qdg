@@ -35,67 +35,36 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 
 		private F f;
 		
-		private int previous;
+		private int previous = -1;
 		
-		private int next;
+		private int next = -1;
 	}
 	
 	protected List<LinkedElement<E>> container =
 			new ArrayList<LinkedElement<E>>();
 	
-	private int firstUsed = -1;
+	protected int firstUsed = -1;
 	
 	// Though new elements could be inserted to the front, and then storing
 	// the index of the last used position would not be necessary, it still
 	// helps a bit in the debugging when the elements come in their original
 	// order. Free elements are not double linked.
-	private int lastUsed = -1;
+	protected int lastUsed = -1;
 	
-	private int firstFree = -1;
+	protected int firstFree = -1;
 	
 	public int add(E e) {
 		// New element is added as last in order.
 		int newIndex;
-		LinkedElement<E> newElement;
 		if (firstFree >= 0) {
 			newIndex = firstFree;
-			newElement = container.get(newIndex);
-			firstFree = newElement.next;
 		} else {
 			newIndex = container.size();
-			newElement = new LinkedElement<E>();
-			container.add(newElement);
 		}
-		newElement.f = e;
-		newElement.next = -1;
-		newElement.previous = lastUsed;
-		if (firstUsed < 0) {
-			firstUsed = newIndex;
-		}
-		if (lastUsed >= 0) {
-			container.get(lastUsed).next = newIndex;
-		}
-		lastUsed = newIndex;
+		put(newIndex, e);
 		return newIndex;
 	}
 	
-	public void remove(int id) {
-		LinkedElement<E> removedElement = container.get(id);
-		if (removedElement.previous >= 0) {
-			container.get(removedElement.previous).next = removedElement.next;
-		} else {
-			firstUsed = removedElement.next;
-		}
-		if (removedElement.next >= 0) {
-			container.get(removedElement.next).previous = removedElement.previous;
-		} else {
-			lastUsed = removedElement.previous;
-		}
-		removedElement.f = null;
-		removedElement.next = firstFree;
-		firstFree = id;
-	}
-
 	private class KeyIterator extends UnmodifiableIterator<Integer> {
 
 		private int id = -1;
@@ -196,7 +165,34 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 			}
 		};
 	}
-	
+
+	public E remove(int id) {
+		if (id >= container.size()) {
+			return null;
+		}
+		LinkedElement<E> removedElement = container.get(id);
+		if (removedElement.f != null) {
+			if (removedElement.previous >= 0) {
+				container.get(removedElement.previous).next = removedElement.next;
+			} else {
+				firstUsed = removedElement.next;
+			}
+			if (removedElement.next >= 0) {
+				container.get(removedElement.next).previous = removedElement.previous;
+			} else {
+				lastUsed = removedElement.previous;
+			}
+			E oldValue = removedElement.f;
+			removedElement.f = null;
+			removedElement.previous = -1;
+			removedElement.next = firstFree;
+			firstFree = id;
+			return oldValue;
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * For testing purposes only.
 	 */
@@ -240,8 +236,45 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 
 	@Override
 	public E put(Integer k, E v) {
-		container.get(k).f = v;
-		return v;
+		if (v == null) {
+			throw new IllegalArgumentException();
+		}
+		while (k >= container.size()) {
+			LinkedElement<E> newElement = new LinkedElement<E>();
+			container.add(newElement);
+			if (firstFree >= 0) {
+				container.get(firstFree).previous = container.size() - 1;
+				newElement.next = firstFree;
+			}
+			firstFree = container.size() - 1;
+		}
+		LinkedElement<E> newElement = container.get(k);
+		if (newElement.f != null) {
+			E oldValue = newElement.f;
+			newElement.f = v;
+			return oldValue;
+		} else {
+			if (newElement.previous >= 0) {
+				container.get(newElement.previous).next = newElement.next;
+			} else {
+				firstFree = newElement.next;
+			}
+			if (newElement.next >= 0) {
+				container.get(newElement.next).previous = newElement.previous;
+			}
+			newElement.f = v;
+			// New element is added as last in order.
+			newElement.previous = lastUsed;
+			newElement.next = -1;
+			// firstUsed >= 0 and lastUsed >= 0 are equivalent.
+			if (firstUsed >= 0) {
+				container.get(lastUsed).next = k;
+			} else {
+				firstUsed = k;
+			}
+			lastUsed = k;
+			return null;
+		}
 	}
 
 	@Override

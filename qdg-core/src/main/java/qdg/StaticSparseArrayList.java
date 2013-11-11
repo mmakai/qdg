@@ -43,18 +43,18 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 
 		private F f;
 		
-		private int previous;
+		private int previous = -1;
 		
-		private int next;
+		private int next = -1;
 	}
 	
 	protected List<LinkedElement<E>> container =
 			new ArrayList<LinkedElement<E>>();
 	
-	private int firstUsed = -1;
+	protected int firstUsed = -1;
 	
 	// Free elements are not linked.
-	private int lastUsed = -1;
+	protected int lastUsed = -1;
 	
 	public E get(int i) {
 		return container.get(i).f;
@@ -160,45 +160,58 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 			}
 		};
 	}
-	
-	public void remove(int id) {
+
+	public E remove(int id) {
+		if (id >= container.size()) {
+			return null;
+		}
 		LinkedElement<E> removedElement = container.get(id);
-		if (removedElement.previous >= 0) {
-			container.get(removedElement.previous).next = removedElement.next;
+		if (removedElement.f != null) {
+			if (removedElement.previous >= 0) {
+				container.get(removedElement.previous).next = removedElement.next;
+			} else {
+				firstUsed = removedElement.next;
+			}
+			if (removedElement.next >= 0) {
+				container.get(removedElement.next).previous = removedElement.previous;
+			} else {
+				lastUsed = removedElement.previous;
+			}
+			E oldValue = removedElement.f;
+			removedElement.f = null;
+			return oldValue;
 		} else {
-			firstUsed = removedElement.next;
+			return null;
 		}
-		if (removedElement.next >= 0) {
-			container.get(removedElement.next).previous = removedElement.previous;
-		} else {
-			lastUsed = removedElement.previous;
-		}
-		removedElement.f = null;
 	}
 	
 	@Override
 	public E put(Integer k, E v) {
+		if (v == null) {
+			throw new IllegalArgumentException();
+		}
 		while (k >= container.size()) {
-			container.add(null);
+			LinkedElement<E> newElement = new LinkedElement<E>();
+			container.add(newElement);
 		}
 		LinkedElement<E> newElement = container.get(k);
-		if (newElement != null) {
-			container.get(k).f = v;
-		} else {
-			newElement = new LinkedElement<E>();
-			container.set(k, newElement);
+		if (newElement.f != null) {
+			E oldValue = newElement.f;
 			newElement.f = v;
-			newElement.next = -1;
+			return oldValue;
+		} else {
+			newElement.f = v;
 			newElement.previous = lastUsed;
-			if (firstUsed < 0) {
+			// newElement.next = -1 holds by default.
+			// firstUsed >= 0 and lastUsed >= 0 are equivalent.
+			if (firstUsed >= 0) {
+				container.get(lastUsed).next = k;
+			} else {
 				firstUsed = k;
 			}
-			if (lastUsed >= 0) {
-				container.get(lastUsed).next = k;
-			}
 			lastUsed = k;
+			return null;
 		}
-		return v;
 	}
 
 	@Override
