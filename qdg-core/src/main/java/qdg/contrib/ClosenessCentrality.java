@@ -26,6 +26,15 @@ import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
 import qdg.api.Graph.Node;
 
+/**
+ * If there is no default distance value for unreachable nodes, then the
+ * closenesses values are divided by component size. If there is a nontrivial
+ * default value, then the closenesses values are divided by the number of
+ * nodes.
+ * 
+ * @author Marton Makai
+ *
+ */
 public class ClosenessCentrality {
 	
 	private final DiGraph g;
@@ -86,9 +95,10 @@ public class ClosenessCentrality {
 					ss = 0.0;
 				}
 				ss += (ensureNumOfNodes() - count) * valueForUnreachableNode;
+				count = ensureNumOfNodes();
 			}
 			if (ss != null) {
-				score.put(s, 1.0 / ss);
+				score.put(s, ((double) count - 1) / ss);
 			}
 		}
 	}

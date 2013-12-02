@@ -29,7 +29,7 @@ import qdg.view.UGraphAsDiGraph;
 public class ClosenessCentralityTest {
 	
 	@Test
-	public void path1() {
+	public void path1DefaultDistanceForUnreachable() {
 		StaticUGraph g = new StaticUGraph();
 		DiGraph di = new UGraphAsDiGraph(g);
 		Node v0 = g.addNode();
@@ -45,18 +45,46 @@ public class ClosenessCentralityTest {
 		EntityMap<Node, Double> score = c.getScore();
 		c.compute();
 		// 5 unreachable nodes, the distance for each of them is set to 6.
-		assertEquals(1.0 / (5 * 6), score.get(v0), 1e-8);
+		assertEquals(5.0 / (5 * 6), score.get(v0), 1e-8);
 		// 2 unreachable nodes, 1 at distance 1, 1 at distance 2, 1 at distance 3.
-		assertEquals(1.0 / (2 * 6 + 1 + 2 + 3), score.get(v1), 1e-8);
+		assertEquals(5.0 / (2 * 6 + 1 + 2 + 3), score.get(v1), 1e-8);
 		// 2 unreachable nodes, 2 at distance 1, 1 at distance 2.
-		assertEquals(1.0 / (2 * 6 + 2 + 2), score.get(v2), 1e-8);
-		assertEquals(1.0 / (2 * 6 + 2 + 2), score.get(v3), 1e-8);
-		assertEquals(1.0 / (2 * 6 + 1 + 2 + 3), score.get(v4), 1e-8);
-		assertEquals(1.0 / (5 * 6), score.get(v5), 1e-8);
+		assertEquals(5.0 / (2 * 6 + 2 + 2), score.get(v2), 1e-8);
+		assertEquals(5.0 / (2 * 6 + 2 + 2), score.get(v3), 1e-8);
+		assertEquals(5.0 / (2 * 6 + 1 + 2 + 3), score.get(v4), 1e-8);
+		assertEquals(5.0 / (5 * 6), score.get(v5), 1e-8);
 	}
 	
 	@Test
-	public void tree() {
+	public void path1ComponentAveraging() {
+		StaticUGraph g = new StaticUGraph();
+		DiGraph di = new UGraphAsDiGraph(g);
+		Node v0 = g.addNode();
+		Node v1 = g.addNode();
+		Node v2 = g.addNode();
+		Node v3 = g.addNode();
+		Node v4 = g.addNode();
+		Node v5 = g.addNode();
+		g.addUEdge(v1, v2);
+		g.addUEdge(v3, v2);
+		g.addUEdge(v4, v3);
+		ClosenessCentrality c = new ClosenessCentrality(di,
+				g.<Double>createNodeMap(), null);
+		EntityMap<Node, Double> score = c.getScore();
+		c.compute();
+		// 5 unreachable nodes.
+		assertNull(score.get(v0));
+		// 2 unreachable nodes, 1 at distance 1, 1 at distance 2, 1 at distance 3.
+		assertEquals(3.0 / (1 + 2 + 3), score.get(v1), 1e-8);
+		// 2 unreachable nodes, 2 at distance 1, 1 at distance 2.
+		assertEquals(3.0 / (2 + 2), score.get(v2), 1e-8);
+		assertEquals(3.0 / (2 + 2), score.get(v3), 1e-8);
+		assertEquals(3.0 / (1 + 2 + 3), score.get(v4), 1e-8);
+		assertNull(score.get(v5));
+	}
+	
+	@Test
+	public void treeDefaultDistanceForUnreachable() {
 		StaticUGraph g = new StaticUGraph();
 		DiGraph di = new UGraphAsDiGraph(g);
 		Node v0 = g.addNode();
@@ -71,19 +99,47 @@ public class ClosenessCentralityTest {
 		EntityMap<Node, Double> score = c.getScore(); 
 		c.compute();
 		// 4 unreachable nodes, the distance for each of them is set to 6.
-		assertEquals(1.0 / (4 * 5), score.get(v0), 1e-8);
+		assertEquals(4.0 / (4 * 5), score.get(v0), 1e-8);
 		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
-		assertEquals(1.0 / (5 + 1 + 2 * 2), score.get(v1), 1e-8);
+		assertEquals(4.0 / (5 + 1 + 2 * 2), score.get(v1), 1e-8);
 		// 1 unreachable node, 3 at distance 1.
-		assertEquals(1.0 / (5 + 3), score.get(v2), 1e-8);
+		assertEquals(4.0 / (5 + 3), score.get(v2), 1e-8);
 		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
-		assertEquals(1.0 / (5 + 1 + 2 * 2), score.get(v3), 1e-8);
+		assertEquals(4.0 / (5 + 1 + 2 * 2), score.get(v3), 1e-8);
 		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
-		assertEquals(1.0 / (5 + 1 + 2 * 2), score.get(v4), 1e-8);
+		assertEquals(4.0 / (5 + 1 + 2 * 2), score.get(v4), 1e-8);
 	}
 	
 	@Test
-	public void theta() {
+	public void treeComponentAveraging() {
+		StaticUGraph g = new StaticUGraph();
+		DiGraph di = new UGraphAsDiGraph(g);
+		Node v0 = g.addNode();
+		Node v1 = g.addNode();
+		Node v2 = g.addNode();
+		Node v3 = g.addNode();
+		Node v4 = g.addNode();
+		g.addUEdge(v1, v2);
+		g.addUEdge(v3, v2);
+		g.addUEdge(v4, v2);
+		ClosenessCentrality c = new ClosenessCentrality(di,
+				g.<Double>createNodeMap(), null);
+		EntityMap<Node, Double> score = c.getScore(); 
+		c.compute();
+		// 4 unreachable nodes.
+		assertNull(score.get(v0));
+		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
+		assertEquals(3.0 / (1 + 2 * 2), score.get(v1), 1e-8);
+		// 1 unreachable node, 3 at distance 1.
+		assertEquals(3.0 / (3), score.get(v2), 1e-8);
+		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
+		assertEquals(3.0 / (1 + 2 * 2), score.get(v3), 1e-8);
+		// 1 unreachable node, 1 at distance 1, 2 at distance 2.
+		assertEquals(3.0 / (1 + 2 * 2), score.get(v4), 1e-8);
+	}
+	
+	@Test
+	public void thetaDefaultDistanceForUnreachable() {
 		StaticUGraph g = new StaticUGraph();
 		DiGraph di = new UGraphAsDiGraph(g);
 		Node v0 = g.addNode();
@@ -101,11 +157,39 @@ public class ClosenessCentralityTest {
 		EntityMap<Node, Double> score = c.getScore();
 		c.compute();
 		// 3 at distance 1, 1 at distance 2.
-		assertEquals(1.0 / (3 * 1 + 2), score.get(v0), 1e-8);
+		assertEquals(4.0 / (3 * 1 + 2), score.get(v0), 1e-8);
 		// 2 at distance 1, 2 at distance 2.
-		assertEquals(1.0 / (2 * 1 + 2 * 2), score.get(v1), 1e-8);
-		assertEquals(1.0 / (2 * 1 + 2 * 2), score.get(v2), 1e-8);
-		assertEquals(1.0 / (2 * 1 + 2 * 2), score.get(v3), 1e-8);
-		assertEquals(1.0 / (3 * 1 + 2), score.get(v4), 1e-8);
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v1), 1e-8);
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v2), 1e-8);
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v3), 1e-8);
+		assertEquals(4.0 / (3 * 1 + 2), score.get(v4), 1e-8);
+	}
+	
+	@Test
+	public void thetaComponentAveraging() {
+		StaticUGraph g = new StaticUGraph();
+		DiGraph di = new UGraphAsDiGraph(g);
+		Node v0 = g.addNode();
+		Node v1 = g.addNode();
+		Node v2 = g.addNode();
+		Node v3 = g.addNode();
+		Node v4 = g.addNode();
+		g.addUEdge(v0, v1);
+		g.addUEdge(v2, v0);
+		g.addUEdge(v0, v3);
+		g.addUEdge(v4, v1);
+		g.addUEdge(v2, v4);
+		g.addUEdge(v4, v3);
+		ClosenessCentrality c = new ClosenessCentrality(di,
+				g.<Double>createNodeMap(), null);
+		EntityMap<Node, Double> score = c.getScore();
+		c.compute();
+		// 3 at distance 1, 1 at distance 2.
+		assertEquals(4.0 / (3 * 1 + 2), score.get(v0), 1e-8);
+		// 2 at distance 1, 2 at distance 2.
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v1), 1e-8);
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v2), 1e-8);
+		assertEquals(4.0 / (2 * 1 + 2 * 2), score.get(v3), 1e-8);
+		assertEquals(4.0 / (3 * 1 + 2), score.get(v4), 1e-8);
 	}
 }

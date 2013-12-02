@@ -28,8 +28,7 @@ import qdg.api.bits.EdgeMutationHandler;
 import qdg.api.bits.NodeMutationHandler;
 import qdg.bits.AbstractMixedGraph;
 
-public class SubMixedGraph extends AbstractMixedGraph
-		implements MixedGraph {
+public class SubMixedGraph extends AbstractMixedGraph {
 
 	protected MixedGraph g;
 	
