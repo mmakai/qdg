@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import qdg.api.DiIdGraph;
@@ -35,6 +36,7 @@ import qdg.bits.ArcLace.ArcData;
 import qdg.bits.ArcLace.NodeData;
 import qdg.bits.ConcatIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -86,11 +88,9 @@ public class ListDiGraph extends AbstractDiGraph
 	
 	protected transient ArcLace<Integer> arcLace = new ArcLace<Integer>(nodes, arcData);
 	
-	private transient WeakHashMap<NodeMutationHandler, Object> nodeMutationHandlers =
-			new WeakHashMap<NodeMutationHandler, Object>();
+	private transient Map<NodeMutationHandler, Object> nodeMutationHandlers;
 
-	private transient WeakHashMap<EdgeMutationHandler, Object> edgeMutationHandlers =
-			new WeakHashMap<EdgeMutationHandler, Object>();
+	private transient Map<EdgeMutationHandler, Object> edgeMutationHandlers;
 	
 	private static Function<Integer, Node> constructNode =
 			new Function<Integer, Node>() {
@@ -99,7 +99,7 @@ public class ListDiGraph extends AbstractDiGraph
 		public Node apply(Integer id) {
 			return new N(id);
 		}
-	};	
+	};
 	
 	private static Function<Integer, Edge> constructEdge =
 			new Function<Integer, Edge>() {
@@ -109,6 +109,18 @@ public class ListDiGraph extends AbstractDiGraph
 			return new A(id);
 		}
 	};
+
+	@GwtIncompatible("WeakHashMap")
+	public ListDiGraph() {
+		nodeMutationHandlers = new WeakHashMap<NodeMutationHandler, Object>();
+		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
+	}
+	
+	public ListDiGraph(Map<NodeMutationHandler, Object> nodeMutationHandlers,
+			Map<EdgeMutationHandler, Object> edgeMutationHandlers) {
+		this.nodeMutationHandlers = nodeMutationHandlers;
+		this.edgeMutationHandlers = edgeMutationHandlers;
+	}
 	
 	@Override
 	public Node getSource(Edge edge) {
@@ -249,6 +261,7 @@ public class ListDiGraph extends AbstractDiGraph
 		return map;
 	}
 	
+	@GwtIncompatible("ObjectInputStream")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		arcLace = new ArcLace<Integer>(nodes, arcData);
@@ -256,6 +269,7 @@ public class ListDiGraph extends AbstractDiGraph
 		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
 	}
 	
+	@GwtIncompatible("ObjectOutputStream")
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 	}

@@ -19,6 +19,7 @@ package qdg;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
@@ -31,6 +32,7 @@ import qdg.bits.AbstractUGraph;
 import qdg.bits.ConcatIterator;
 import qdg.bits.IndexIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -97,11 +99,9 @@ public class StaticUGraph extends AbstractUGraph
 	
 	protected List<EdgeData> uEdges = new ArrayList<EdgeData>();
 	
-	private WeakHashMap<NodeMutationHandler, Object> nodeMutationHandlers =
-			new WeakHashMap<NodeMutationHandler, Object>();
+	private Map<NodeMutationHandler, Object> nodeMutationHandlers;
 
-	private WeakHashMap<EdgeMutationHandler, Object> edgeMutationHandlers =
-			new WeakHashMap<EdgeMutationHandler, Object>();
+	private Map<EdgeMutationHandler, Object> edgeMutationHandlers;
 	
 	private static Function<Integer, Node> constructNode =
 			new Function<Integer, Node>() {
@@ -120,6 +120,18 @@ public class StaticUGraph extends AbstractUGraph
 			return new U(id);
 		}
 	};
+	
+	@GwtIncompatible("WeakHashMap")
+	public StaticUGraph() {
+		nodeMutationHandlers = new WeakHashMap<NodeMutationHandler, Object>();
+		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
+	}
+	
+	public StaticUGraph(Map<NodeMutationHandler, Object> nodeMutationHandlers,
+			Map<EdgeMutationHandler, Object> edgeMutationHandlers) {
+		this.nodeMutationHandlers = nodeMutationHandlers;
+		this.edgeMutationHandlers = edgeMutationHandlers;
+	}
 	
 	@Override
 	public Node getSource(Edge edge) {

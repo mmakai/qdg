@@ -27,6 +27,7 @@ import qdg.api.EntityMap;
 import qdg.api.bits.HasId;
 import qdg.api.bits.MutationHandler;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 
 public abstract class AbstractIdMap<K, V>
@@ -78,11 +79,13 @@ public abstract class AbstractIdMap<K, V>
 		}
 	}
 	
+	@GwtIncompatible("ObjectInputStream")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		f = new PrintEntry();
 	}
 	
+	@GwtIncompatible("ObjectOutputStream")
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 	}

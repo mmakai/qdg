@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
@@ -35,6 +36,7 @@ import qdg.bits.ArcLace.ArcData;
 import qdg.bits.ArcLace.NodeData;
 import qdg.bits.ConcatIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -87,11 +89,9 @@ public class ListUGraph extends AbstractUGraph
 	protected transient ArcLace<Integer> uEdgeLace = new ArcLace<Integer>(
 			nodes, uEdgeData);
 	
-	private transient WeakHashMap<NodeMutationHandler, Object> nodeMutationHandlers =
-			new WeakHashMap<NodeMutationHandler, Object>();
-	
-	private transient WeakHashMap<EdgeMutationHandler, Object> edgeMutationHandlers =
-			new WeakHashMap<EdgeMutationHandler, Object>();
+	private transient Map<NodeMutationHandler, Object> nodeMutationHandlers;
+
+	private transient Map<EdgeMutationHandler, Object> edgeMutationHandlers;
 	
 	private static Function<Integer, Node> constructNode =
 			new Function<Integer, Node>() {
@@ -110,7 +110,19 @@ public class ListUGraph extends AbstractUGraph
 			return new U(id);
 		}
 	};
+
+	@GwtIncompatible("WeakHashMap")
+	public ListUGraph() {
+		nodeMutationHandlers = new WeakHashMap<NodeMutationHandler, Object>();
+		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
+	}
 	
+	public ListUGraph(Map<NodeMutationHandler, Object> nodeMutationHandlers,
+			Map<EdgeMutationHandler, Object> edgeMutationHandlers) {
+		this.nodeMutationHandlers = nodeMutationHandlers;
+		this.edgeMutationHandlers = edgeMutationHandlers;
+	}
+
 	@Override
 	public Node getSource(Edge edge) {
 		return new N(uEdgeLace.getSource(((U) edge).getId()));
@@ -238,6 +250,7 @@ public class ListUGraph extends AbstractUGraph
 		return map;
 	}
 	
+	@GwtIncompatible("ObjectInputStream")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		uEdgeLace = new ArcLace<Integer>(nodes, uEdgeData);
@@ -245,6 +258,7 @@ public class ListUGraph extends AbstractUGraph
 		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
 	}
 	
+	@GwtIncompatible("ObjectOutputStream")
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 	}

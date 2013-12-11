@@ -34,6 +34,7 @@ import qdg.bits.ArcLace.ArcData;
 import qdg.bits.ArcLace.NodeData;
 import qdg.bits.ConcatIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -371,11 +372,13 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 					"]";
 		}
 
+		@GwtIncompatible("ObjectInputStream")
 		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 			in.defaultReadObject();
 			f = new PrintEntry();
 		}
 		
+		@GwtIncompatible("ObjectOutputStream")
 		private void writeObject(ObjectOutputStream out) throws IOException {
 			out.defaultWriteObject();
 		}
@@ -420,6 +423,7 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 		return new ArcMap<V>();
 	}
 	
+	@GwtIncompatible("ObjectInputStream")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		arcLace = new ArcLace<Integer>(arcNodes, arcData);
@@ -428,6 +432,7 @@ public class StaticMixedIdGraph extends AbstractMixedGraph
 		uEdgeNodes = new UEdgeNodeMap();
 	}
 	
+	@GwtIncompatible("ObjectOutputStream")
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 	}

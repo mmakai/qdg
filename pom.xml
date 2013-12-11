@@ -11,6 +11,7 @@
 
   <modules>
     <module>qdg-core</module>
+    <module>qdg-core-gwt</module>
     <module>qdg-jung</module>
   </modules>
 

@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import qdg.api.EntityMap;
@@ -35,6 +36,7 @@ import qdg.bits.ArcLace.ArcData;
 import qdg.bits.ArcLace.NodeData;
 import qdg.bits.ConcatIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -166,11 +168,9 @@ public class ListMixedGraph extends AbstractMixedGraph
 	protected transient ArcLace<Integer> uEdgeLace =
 			new ArcLace<Integer>(uEdgeNodes, uEdgeData);
 	
-	private transient WeakHashMap<NodeMutationHandler, Object> nodeMutationHandlers =
-			new WeakHashMap<NodeMutationHandler, Object>();
-	
-	private transient WeakHashMap<EdgeMutationHandler, Object> edgeMutationHandlers =
-			new WeakHashMap<EdgeMutationHandler, Object>();
+	private transient Map<NodeMutationHandler, Object> nodeMutationHandlers;
+
+	private transient Map<EdgeMutationHandler, Object> edgeMutationHandlers;
 	
 	private static Function<Integer, Node> constructNode =
 			new Function<Integer, Node>() {
@@ -198,6 +198,18 @@ public class ListMixedGraph extends AbstractMixedGraph
 			return new E(id, false);
 		}
 	};
+	
+	@GwtIncompatible("WeakHashMap")
+	public ListMixedGraph() {
+		nodeMutationHandlers = new WeakHashMap<NodeMutationHandler, Object>();
+		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
+	}
+	
+	public ListMixedGraph(Map<NodeMutationHandler, Object> nodeMutationHandlers,
+			Map<EdgeMutationHandler, Object> edgeMutationHandlers) {
+		this.nodeMutationHandlers = nodeMutationHandlers;
+		this.edgeMutationHandlers = edgeMutationHandlers;
+	}
 	
 	@Override
 	public Node getSource(Edge edge) {
@@ -427,12 +439,13 @@ public class ListMixedGraph extends AbstractMixedGraph
 			}
 		}
 		
-
+		@GwtIncompatible("ObjectInputStream")
 		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 			in.defaultReadObject();
 			f = new PrintEntry();
 		}
 		
+		@GwtIncompatible("ObjectOutputStream")
 		private void writeObject(ObjectOutputStream out) throws IOException {
 			out.defaultWriteObject();
 		}
@@ -479,6 +492,7 @@ public class ListMixedGraph extends AbstractMixedGraph
 		return new ArcMap<V>();
 	}
 	
+	@GwtIncompatible("ObjectInputStream")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		arcLace = new ArcLace<Integer>(arcNodes, arcData);
@@ -489,6 +503,7 @@ public class ListMixedGraph extends AbstractMixedGraph
 		uEdgeNodes = new UEdgeNodeMap();
 	}
 	
+	@GwtIncompatible("ObjectOutputStream")
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 	}

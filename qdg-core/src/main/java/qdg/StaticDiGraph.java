@@ -19,6 +19,7 @@ package qdg;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import qdg.api.DiIdGraph;
@@ -31,6 +32,7 @@ import qdg.bits.AbstractIdMap;
 import qdg.bits.ConcatIterator;
 import qdg.bits.IndexIterator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -97,11 +99,9 @@ public class StaticDiGraph extends AbstractDiGraph
 	
 	protected List<EdgeData> arcs = new ArrayList<EdgeData>();
 	
-	private WeakHashMap<NodeMutationHandler, Object> nodeMutationHandlers =
-			new WeakHashMap<NodeMutationHandler, Object>();
+	private Map<NodeMutationHandler, Object> nodeMutationHandlers;
 
-	private WeakHashMap<EdgeMutationHandler, Object> edgeMutationHandlers =
-			new WeakHashMap<EdgeMutationHandler, Object>();
+	private Map<EdgeMutationHandler, Object> edgeMutationHandlers;
 	
 	private static Function<Integer, Node> constructNode =
 			new Function<Integer, Node>() {
@@ -110,7 +110,7 @@ public class StaticDiGraph extends AbstractDiGraph
 		public Node apply(Integer id) {
 			return new N(id);
 		}
-	};	
+	};
 	
 	private static Function<Integer, Edge> constructEdge =
 			new Function<Integer, Edge>() {
@@ -120,6 +120,18 @@ public class StaticDiGraph extends AbstractDiGraph
 			return new A(id);
 		}
 	};
+	
+	@GwtIncompatible("WeakHashMap")
+	public StaticDiGraph() {
+		nodeMutationHandlers = new WeakHashMap<NodeMutationHandler, Object>();
+		edgeMutationHandlers = new WeakHashMap<EdgeMutationHandler, Object>();
+	}
+	
+	public StaticDiGraph(Map<NodeMutationHandler, Object> nodeMutationHandlers,
+			Map<EdgeMutationHandler, Object> edgeMutationHandlers) {
+		this.nodeMutationHandlers = nodeMutationHandlers;
+		this.edgeMutationHandlers = edgeMutationHandlers;
+	}
 	
 	@Override
 	public Node getSource(Edge edge) {
