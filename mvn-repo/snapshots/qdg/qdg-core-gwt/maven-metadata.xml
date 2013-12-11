@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>qdg</groupId>
-  <artifactId>qdg-parent</artifactId>
+  <artifactId>qdg-core-gwt</artifactId>
   <versioning>
     <versions>
-      <version>0.0.1-SNAPSHOT</version>
       <version>0.0.2-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20131211154738</lastUpdated>
+    <lastUpdated>20131211154743</lastUpdated>
   </versioning>
 </metadata>
