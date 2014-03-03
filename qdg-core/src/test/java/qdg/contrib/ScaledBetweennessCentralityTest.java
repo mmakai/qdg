@@ -176,8 +176,6 @@ public class ScaledBetweennessCentralityTest {
 		EntityMap<Node, Double> c1 = di.createNodeMap();
 		ScaledBetweennessCentrality c = new ScaledBetweennessCentrality(di);
 		c.singleSourceCompute(nodes.get(0), c1);
-		System.out.println(b1);
-		System.out.println(c1);
 	}
 	
 	@Test
