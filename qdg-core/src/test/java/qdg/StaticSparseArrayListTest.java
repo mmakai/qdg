@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,11 @@ public class StaticSparseArrayListTest {
 		assertEquals(s.lastUsed, -1);
 		
 		assertNull(s.remove(0));
+		assertEquals(s.firstUsed, -1);
+		assertEquals(s.lastUsed, -1);
+		
+		assertNull(s.get(100));
+		assertNull(s.remove(100));
 		assertEquals(s.firstUsed, -1);
 		assertEquals(s.lastUsed, -1);
 	}

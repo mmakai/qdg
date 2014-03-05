@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,17 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 	protected int lastUsed = -1;
 	
 	public E get(int i) {
-		return container.get(i).f;
+		if (i >= container.size()) {
+			return null;
+		} else {
+			return container.get(i).f;
+		}
+	}
+
+	@Override
+	public E get(Object k) {
+		int i = (Integer) k;
+		return get(i);
 	}
 	
 	private class KeyIterator extends UnmodifiableIterator<Integer> {
@@ -202,7 +212,7 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 		} else {
 			newElement.f = v;
 			newElement.previous = lastUsed;
-			// newElement.next = -1 holds by default.
+			newElement.next = -1;
 			// firstUsed >= 0 and lastUsed >= 0 are equivalent.
 			if (firstUsed >= 0) {
 				container.get(lastUsed).next = k;
@@ -212,10 +222,5 @@ public class StaticSparseArrayList<E> implements SparseArrayMap<E>, Serializable
 			lastUsed = k;
 			return null;
 		}
-	}
-
-	@Override
-	public E get(Object k) {
-		return container.get((Integer) k).f;
 	}
 }

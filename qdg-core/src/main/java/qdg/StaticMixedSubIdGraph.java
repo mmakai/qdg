@@ -80,8 +80,8 @@ public class StaticMixedSubIdGraph extends AbstractMixedGraph
 		return graph.isDirected(edge);
 	}
 	
-	protected SparseArrayList<CombinedNodeData> nodes =
-			new SparseArrayList<CombinedNodeData>();
+	protected StaticSparseArrayList<CombinedNodeData> nodes =
+			new StaticSparseArrayList<CombinedNodeData>();
 	
 	private class ArcNodeMap implements EntityMap<Integer, NodeData> {
 		
@@ -133,14 +133,14 @@ public class StaticMixedSubIdGraph extends AbstractMixedGraph
 	protected transient EntityMap<Integer, NodeData> uEdgeNodes =
 			new UEdgeNodeMap();
 	
-	protected SparseArrayList<ArcData<Integer>> arcData =
-			new SparseArrayList<ArcData<Integer>>();
+	protected StaticSparseArrayList<ArcData<Integer>> arcData =
+			new StaticSparseArrayList<ArcData<Integer>>();
 	
 	protected transient ArcLace<Integer> arcLace =
 			new ArcLace<Integer>(arcNodes, arcData);
 	
-	protected SparseArrayList<ArcData<Integer>> uEdgeData =
-			new SparseArrayList<ArcData<Integer>>();
+	protected StaticSparseArrayList<ArcData<Integer>> uEdgeData =
+			new StaticSparseArrayList<ArcData<Integer>>();
 	
 	protected transient ArcLace<Integer> uEdgeLace =
 			new ArcLace<Integer>(uEdgeNodes, uEdgeData);

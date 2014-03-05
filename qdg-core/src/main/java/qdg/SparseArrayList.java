@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +48,25 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 	// Though new elements could be inserted to the front, and then storing
 	// the index of the last used position would not be necessary, it still
 	// helps a bit in the debugging when the elements come in their original
-	// order. Free elements are not double linked.
+	// order. Free elements are singly linked.
 	protected int lastUsed = -1;
 	
 	protected int firstFree = -1;
 	
+	public E get(int i) {
+		if (i >= container.size()) {
+			return null;
+		} else {
+			return container.get(i).f;
+		}
+	}
+
+	@Override
+	public E get(Object k) {
+		int i = (Integer) k;
+		return get(i);
+	}
+
 	public int add(E e) {
 		// New element is added as last in order.
 		int newIndex;
@@ -275,10 +289,5 @@ public class SparseArrayList<E> implements SparseArrayMap<E>, Serializable {
 			lastUsed = k;
 			return null;
 		}
-	}
-
-	@Override
-	public E get(Object k) {
-		return container.get((Integer) k).f;
 	}
 }
