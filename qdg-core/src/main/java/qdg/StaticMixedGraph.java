@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,6 +85,28 @@ public class StaticMixedGraph extends AbstractMixedGraph
 		public E(int id, boolean directed) {
 			super(id);
 			this.directed = directed;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + (directed ? 1231 : 1237);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			E other = (E) obj;
+			if (directed != other.directed)
+				return false;
+			return true;
 		}
 
 		@Override
