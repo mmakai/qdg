@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +34,21 @@ import qdg.bits.AbstractUGraph;
  */
 public class MixedGraphAsUGraph extends AbstractUGraph {
 
-	private MixedGraph g;
-
+	protected MixedGraph g;
+	
+	public MixedGraphAsUGraph() {
+	}
+	
 	public MixedGraphAsUGraph(MixedGraph g) {
 		this.g = g;
+	}
+	
+	public void setGraph(MixedGraph graph) {
+		this.g = graph;
+	}
+	
+	public MixedGraph getGraph() {
+		return g;
 	}
 	
 	@Override

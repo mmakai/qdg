@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,6 +55,14 @@ public class SpanningSubMixedGraph extends AbstractMixedGraph {
 		this(g, new EntityMaps.AsPredicate<Node>(nodeFilterMap));
 	}
 
+	public void setGraph(MixedGraph graph) {
+		this.g = graph;
+	}
+	
+	public MixedGraph getGraph() {
+		return g;
+	}
+	
 	@Override
 	public boolean isDirected(Edge edge) {
 		return g.isDirected(edge);

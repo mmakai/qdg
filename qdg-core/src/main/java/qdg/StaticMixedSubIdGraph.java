@@ -69,10 +69,21 @@ public class StaticMixedSubIdGraph extends AbstractMixedGraph
 		}
 	}
 	
-	private MixedIdGraph graph;
+	protected MixedIdGraph graph;
+	
+	public StaticMixedSubIdGraph() {
+	}
+	
+	public StaticMixedSubIdGraph(MixedIdGraph graph) {
+		this.graph = graph;
+	}
 	
 	public void setGraph(MixedIdGraph graph) {
 		this.graph = graph;
+	}
+	
+	public MixedIdGraph getGraph() {
+		return graph;
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,19 @@ public class DiGraphAsMixedGraph extends AbstractMixedGraph {
 
 	protected DiGraph graph;
 	
+	public DiGraphAsMixedGraph() {
+	}
+	
 	public DiGraphAsMixedGraph(DiGraph graph) {
 		this.graph = graph;
+	}
+	
+	public void setGraph(DiGraph graph) {
+		this.graph = graph;
+	}
+	
+	public DiGraph getGraph() {
+		return graph;
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,12 +90,23 @@ public class UGraphAsDiGraph extends AbstractDiGraph {
 		}
 	}
 
-	private UGraph g;
-
+	protected UGraph g;
+	
+	public UGraphAsDiGraph() {
+	}
+	
 	public UGraphAsDiGraph(UGraph g) {
 		this.g = g;
 	}
-
+	
+	public void setGraph(UGraph graph) {
+		this.g = graph;
+	}
+	
+	public UGraph getGraph() {
+		return g;
+	}
+	
 	private Function<Edge, Edge> forwardEdge = new Function<Edge, Edge>() {
 
 		@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,14 @@ public class EdgeSubMixedGraph extends AbstractMixedGraph {
 	public EdgeSubMixedGraph(MixedGraph g,
 			EntityMap<Edge, Boolean> edgeFilterMap) {
 		this(g, new EntityMaps.AsPredicate<Edge>(edgeFilterMap));
+	}
+	
+	public void setGraph(MixedGraph graph) {
+		this.g = graph;
+	}
+	
+	public MixedGraph getGraph() {
+		return g;
 	}
 	
 	@Override

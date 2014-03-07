@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Marton Makai
+ * Copyright (C) 2013, 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,12 +85,23 @@ public class MixedGraphAsBiDiGraph extends AbstractDiGraph {
 		}
 	}
 
-	private MixedGraph g;
-
+	protected MixedGraph g;
+	
+	public MixedGraphAsBiDiGraph() {
+	}
+	
 	public MixedGraphAsBiDiGraph(MixedGraph g) {
 		this.g = g;
 	}
 
+	public void setGraph(MixedGraph graph) {
+		this.g = graph;
+	}
+	
+	public MixedGraph getGraph() {
+		return g;
+	}
+	
 	@Override
 	public Node getSource(Edge edge) {
 		A a = (A) edge;
