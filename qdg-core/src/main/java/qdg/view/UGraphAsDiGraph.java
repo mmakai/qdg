@@ -229,9 +229,16 @@ public class UGraphAsDiGraph extends AbstractDiGraph {
 
 	protected class ArcMap<V> implements EntityMap<Edge, V> {
 
-		private EntityMap<Edge, V> forwardUEdges = g.createUEdgeMap();
+		private EntityMap<Edge, V> forwardUEdges, backwardUEdges;
 
-		private EntityMap<Edge, V> backwardUEdges = g.createUEdgeMap();
+		public ArcMap() {
+			this(g.<V>createUEdgeMap(), g.<V>createUEdgeMap());
+		}
+		
+		public ArcMap(EntityMap<Edge, V> forwardUEdges, EntityMap<Edge, V> backwardUEdges) {
+			this.forwardUEdges = forwardUEdges;
+			this.backwardUEdges = backwardUEdges;
+		}
 
 		@Override
 		public V put(Edge k, V v) {
@@ -254,6 +261,17 @@ public class UGraphAsDiGraph extends AbstractDiGraph {
 		}
 	}
 
+	/**
+	 * Wraps maps of the underlying graph to a map of the view.
+	 * 
+	 * @param forwardUEdges
+	 * @param backwardUEdges
+	 * @return
+	 */
+	public <V> EntityMap<Edge, V> createArcMap(EntityMap<Edge, V> forwardUEdges, EntityMap<Edge, V> backwardUEdges) {
+		return new ArcMap<V>(forwardUEdges, backwardUEdges);
+	}
+	
 	@Override
 	public <V> EntityMap<Edge, V> createArcMap() {
 		return new ArcMap<V>();

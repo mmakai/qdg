@@ -255,13 +255,22 @@ public class MixedGraphAsBiDiGraph extends AbstractDiGraph {
 
 	protected class ArcMap<V> implements EntityMap<Edge, V> {
 
-		private EntityMap<Edge, V> forwardArcs = g.createArcMap();
-
-		private EntityMap<Edge, V> backwardArcs = g.createArcMap();
+		private EntityMap<Edge, V> forwardArcs, backwardArcs;
 		
-		private EntityMap<Edge, V> forwardUEdges = g.createUEdgeMap();
+		private EntityMap<Edge, V> forwardUEdges, backwardUEdges;
 
-		private EntityMap<Edge, V> backwardUEdges = g.createUEdgeMap();
+		public ArcMap() {
+			this(g.<V>createArcMap(), g.<V>createArcMap(),
+					g.<V>createUEdgeMap(), g.<V>createUEdgeMap());
+		}
+		
+		public ArcMap(EntityMap<Edge, V> forwardArcs, EntityMap<Edge, V> backwardArcs,
+				EntityMap<Edge, V> forwardUEdges, EntityMap<Edge, V> backwardUEdges) {
+			this.forwardArcs = forwardArcs;
+			this.backwardArcs = backwardArcs;
+			this.forwardUEdges = forwardUEdges;
+			this.backwardUEdges = backwardUEdges;
+		}
 
 		@Override
 		public V put(Edge k, V v) {
@@ -299,7 +308,23 @@ public class MixedGraphAsBiDiGraph extends AbstractDiGraph {
 			}
 		}
 	}
-
+	
+	/**
+	 * Wraps maps of the underlying graph to a map of the view.
+	 * 
+	 * @param forwardArcs
+	 * @param backwardArcs
+	 * @param forwardUEdges
+	 * @param backwardUEdges
+	 * @return
+	 */
+	public <V> EntityMap<Edge, V> createArcMap(
+			EntityMap<Edge, V> forwardArcs, EntityMap<Edge, V> backwardArcs,
+			EntityMap<Edge, V> forwardUEdges, EntityMap<Edge, V> backwardUEdges) {
+		return new ArcMap<V>(forwardArcs, backwardArcs,
+				forwardUEdges, backwardUEdges);
+	}
+	
 	@Override
 	public <V> EntityMap<Edge, V> createArcMap() {
 		return new ArcMap<V>();
