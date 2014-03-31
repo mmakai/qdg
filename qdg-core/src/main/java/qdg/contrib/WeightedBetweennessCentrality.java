@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2014 Marton Makai
+ * Copyright (C) 2014 Marton Makai
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,11 @@
 
 package qdg.contrib;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
+import qdg.BinaryHeap;
 import qdg.api.DiGraph;
 import qdg.api.EntityMap;
 import qdg.api.Graph.Edge;
@@ -43,13 +42,15 @@ import qdg.api.Graph.Node;
  * For efficiency reasons, nodes not receiving any contributions from any
  * shortest paths can have score value null, instead of 0.0.
  */
-public class BetweennessCentrality {
+public class WeightedBetweennessCentrality {
 
 	private final DiGraph g;
 	
 	private EntityMap<Node, Double> score;
 	
-	public BetweennessCentrality(DiGraph g) {
+	private EntityMap<Edge, Double> weights;
+	
+	public WeightedBetweennessCentrality(DiGraph g) {
 		this.g = g;
 		this.score = g.<Double>createNodeMap();
 	}
@@ -60,7 +61,7 @@ public class BetweennessCentrality {
 		
 		private EntityMap<Node, Double> score;
 		
-		protected EntityMap<Node, Integer> distance = g.createNodeMap();
+		protected EntityMap<Node, Double> distance = g.createNodeMap();
 		
 		protected EntityMap<Node, List<Edge>> tightEdges = g.createNodeMap();
 		
@@ -86,31 +87,45 @@ public class BetweennessCentrality {
 		}
 		
 		protected void scan() {
-			distance.put(s, 0);
-			Queue<Node> queue = new ArrayDeque<Node>();
-			queue.add(s);
+			distance.put(s, 0.0);
+			BinaryHeap<Node, Double> queue = new BinaryHeap<Node, Double>(g.<Integer>createNodeMap());
+			queue.add(s, 0.0);
 			numShortestPaths.put(s, 1);
 			while (!queue.isEmpty()) {
-				Node u = queue.remove();
+				Node u = queue.poll().getKey();
 				stack.push(u);
 				for (Edge e : g.getOutArcs(u)) {
 					Node v = g.getTarget(e);
+					Double dist = distance.get(u) + weights.get(e);
 					if (distance.get(v) == null) {
-						Integer dist = distance.get(u) + 1;
 						distance.put(v, dist);
-						queue.add(v);
-					}
-					if (distance.get(v).equals(distance.get(u) + 1)) {
+						queue.add(v, dist);
+						List<Edge> t = new ArrayList<Edge>();
+						tightEdges.put(v, t);
+						t.add(e);
+						numShortestPaths.put(v, numShortestPaths.get(u));
+					} else if (dist < distance.get(v)) {
+						distance.put(v, dist);
+						queue.decrease(v, dist);
 						List<Edge> t = tightEdges.get(v);
+						// This should not happen, but rounding errors can cause crazy things.
+						if (t == null) {
+							t = new ArrayList<Edge>();
+							tightEdges.put(v, t);
+						} else {
+							t.clear();
+						}
+						t.add(e);
+						numShortestPaths.put(v, numShortestPaths.get(u));
+					} else if (dist.equals(distance.get(v))) {
+						List<Edge> t = tightEdges.get(v);
+						// This should not happen, but rounding errors can cause crazy things.
 						if (t == null) {
 							t = new ArrayList<Edge>();
 							tightEdges.put(v, t);
 						}
 						t.add(e);
 						Integer i = numShortestPaths.get(v);
-						if (i == null) {
-							i = 0;
-						}
 						numShortestPaths.put(v, i + numShortestPaths.get(u));
 					}
 				}
@@ -171,7 +186,15 @@ public class BetweennessCentrality {
 			singleSourceCompute(s, score);
 		}
 	}
-
+	
+	public void setWeights(EntityMap<Edge, Double> weights) {
+		this.weights = weights;
+	}
+	
+	public EntityMap<Edge, Double> getWeights() {
+		return weights;
+	}
+	
 	public void setScore(EntityMap<Node, Double> score) {
 		this.score = score;
 	}

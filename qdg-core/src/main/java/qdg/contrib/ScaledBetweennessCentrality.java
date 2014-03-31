@@ -60,12 +60,8 @@ public class ScaledBetweennessCentrality {
 	private EntityMap<Node, Double> score;
 	
 	public ScaledBetweennessCentrality(DiGraph g) {
-		this(g, g.<Double>createNodeMap());
-	}
-	
-	public ScaledBetweennessCentrality(DiGraph g, EntityMap<Node, Double> score) {
 		this.g = g;
-		this.score = score;
+		this.score = g.<Double>createNodeMap();
 	}
 	
 	protected class SingleSource {
@@ -109,9 +105,6 @@ public class ScaledBetweennessCentrality {
 						distance.put(v, dist);
 						queue.add(v);
 					}
-				}
-				for (Edge e : g.getOutArcs(u)) {
-					Node v = g.getTarget(e);
 					if (distance.get(v).equals(distance.get(u) + 1)) {
 						List<Edge> t = tightEdges.get(v);
 						if (t == null) {
@@ -178,6 +171,10 @@ public class ScaledBetweennessCentrality {
 		}
 	}
 
+	public void setScore(EntityMap<Node, Double> score) {
+		this.score = score;
+	}
+	
 	public EntityMap<Node, Double> getScore() {
 		return score;
 	}
